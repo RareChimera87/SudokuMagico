@@ -18,7 +18,75 @@ list = [
 ]
  
 tablero = [[random.randint(1, 9) for _ in range(9)] for _ in range(9)]
-print("Su tablero es: ", tablero)
+""" print("Su tablero es: ", tablero) """
+
+
+def generaTablero():
+    tablero = [[0 for _ in range(9)] for _ in range(9)]
+    return tablero
+    
+
+def LlenaTablero():
+
+    Tablero = generaTablero()
+
+    print("Tablero Generado: ", Tablero)
+
+    for i in range(9):
+
+        digitos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        print("Generando fila numero: ", i + 1)
+        print("Fila Original: ", Tablero[i])
+        
+        validatorNumber = False
+            
+
+        while validatorNumber != True:
+            fila = []
+            NumeroIntentados = []
+            for j in range(9):
+                valido = False
+                NumeroIntentados = []
+                iteracion = 0
+                while valido != True:
+                    iteracion += 1
+                    currentColumna = []
+                    for l in range(len(Tablero)):
+                        currentColumna.append(Tablero[l][j])
+                    print("Columna actual: ", currentColumna)
+                    print("Fila Actual:   ", fila)
+                    print("Determinando posicion: ", j+1, " de la lista: ", i+1)
+                    
+                    numero = random.randint(1, 9)
+                    
+                    if numero not in NumeroIntentados:
+                        NumeroIntentados.append(numero)
+                    print("Numero posible: ", numero)
+        
+                    if numero in fila or numero in currentColumna:
+                        print("Numero no valido, ya esta")
+                        if numero not in fila and numero in currentColumna and iteracion > 30:
+                            print("Orden no valido\n Reseteando....")
+                            fila = Tablero[i]
+                            break
+                    else:
+                        print("Numero Valido\n Añadiendo")
+                        valido = True
+                        fila.append(numero)
+                        continue
+            if 0 in fila:
+                print("Fila validada erroneamente")
+                continue
+            else:
+                print("Se ve bien la fila")
+                validatorNumber = True
+
+        print("Fila Generada: ", fila)
+        Tablero[i] = fila
+        print("Nuevo Tablero: ", Tablero)
+        #time.sleep(5)
+
+
 
 
 def verificaTablero(lista):
@@ -159,4 +227,6 @@ def verificaColumnas(lista):
 
                     
 
-verificaTablero(tablero)
+#verificaTablero(tablero)
+
+LlenaTablero()
