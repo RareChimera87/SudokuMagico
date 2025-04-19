@@ -250,6 +250,3 @@ def LlenaTablero():
 
     print("Generado en: ", time.time()-TiempoI)
     return Tablero
-
-
-validaTablero()
