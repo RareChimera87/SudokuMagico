@@ -1,77 +1,35 @@
-import random
 import time
+""" 
+nose = [
+[3, 6, 2, 8, 7, 5, 4, 1, 9], 
+[4, 9, 6, 1, 3, 8, 2, 7, 5], 
+[6, 5, 8, 2, 9, 7, 4, 3, 1], 
+[2, 7, 9, 5, 3, 4, 1, 6, 8], 
+[2, 1, 9, 5, 4, 7, 6, 8, 3], 
+[1, 3, 4, 5, 9, 6, 8, 2, 7], 
+[6, 7, 1, 4, 5, 2, 8, 3, 9], 
+[6, 3, 4, 7, 8, 9, 5, 2, 1], 
+[6, 5, 4, 7, 9, 2, 3, 1, 8]
+] """
+
 
 class Sudoku:
-    def __init__(self):
+    def __init__(self,):
         self.size = 9
         self.cuadrante_size = 3
-        self.board = self.generaTablero()
-        self.tablero_valido = False
+        self.board = []
 
-    def generaTablero(self):
-        return [[0 for _ in range(self.size)] for _ in range(self.size)]
     
-    def generaColumnas(self, posicion):
-        Columna = []
-        for i in range(self.size):
-            Columna.append(self.board[i][posicion])
-        return Columna
-    
-    def generaCuadrante(self, fila, columna):
-        Cuadrante = []
-        if (fila >= 0 and fila <= 2):
-            if  (columna >= 0 and columna <= 2):
-                for i in range(self.cuadrante_size):
-                    for j in range(self.cuadrante_size):
-                        Cuadrante.append(self.board[i][j])
-            elif (columna >= 3 and columna <= 5):
-                for i in range(self.cuadrante_size):
-                    for j in range(self.cuadrante_size):
-                        Cuadrante.append(self.board[i][j+3])
-            else:
-                for i in range(self.cuadrante_size):
-                    for j in range(self.cuadrante_size):
-                        Cuadrante.append(self.board[i][j+6])
-        elif (fila >= 3 and fila <= 5):
-            if  (columna >= 0 and columna <= 2):
-                for i in range(self.cuadrante_size):
-                    for j in range(self.cuadrante_size):
-                        Cuadrante.append(self.board[i+3][j])
-            elif (columna >= 3 and columna <= 5):
-                for i in range(self.cuadrante_size):
-                    for j in range(self.cuadrante_size):
-                        Cuadrante.append(self.board[i+3][j+3])
-            else:
-                for i in range(self.cuadrante_size):
-                    for j in range(self.cuadrante_size):
-                        Cuadrante.append(self.board[i+3][j+6])
-        else:
-            if  (columna >= 0 and columna <= 2):
-                for i in range(self.cuadrante_size):
-                    for j in range(self.cuadrante_size):
-                        Cuadrante.append(self.board[i+6][j])
-            elif (columna >= 3 and columna <= 5):
-                for i in range(self.cuadrante_size):
-                    for j in range(self.cuadrante_size):
-                        Cuadrante.append(self.board[i+6][j+3])
-            else:
-                for i in range(self.cuadrante_size):
-                    for j in range(self.cuadrante_size):
-                        Cuadrante.append(self.board[i+6][j+6])
-        return Cuadrante
 
-    def generaNumero(self, min, max):
-        numero = random.randint(min, max)
-        return numero
-
-    def LlenarTablero(self):
+    def LlenarTablero(self, tableroVacio,generaColumnas, generaCuadrante, generaNumero):
+        self.board = tableroVacio
         TiempoI = time.time()
         
         print("Tablero Generado: ", self.board)
 
-        for i in range(9):
+        for i in range(self.size):
             print("Generando fila numero: ", i + 1)
-            print("Fila Original: ", self.board[i])
+            #print("Fila Original: ", self.board[i])
             
             validatorNumber = False
                 
@@ -80,7 +38,7 @@ class Sudoku:
                 fila = []
                 error = False
                 for j in range(9):
-                    numero = self.validaNumero(i, j, fila)
+                    numero = self.LlenaNumero(i, j, fila, generaColumnas, generaCuadrante, generaNumero)
                     if numero is None:
                         fila = []
                         error = True
@@ -96,10 +54,11 @@ class Sudoku:
                 else:
                     #print("Se ve bien la fila")
                     validatorNumber = True
-            print("Fila Generada: ", fila)
+            #print("Fila Generada: ", fila)
             self.board[i] = fila
-            print("Nuevo Tablero: ", self.board)
+            #print("Nuevo Tablero: ", self.board)
 
+        print("Finalizado\nTablero generado: ")
         print("\n\n\n------------------------------------------------------------------------")
         for i in range(9):
             print(self.board[i])
@@ -108,22 +67,23 @@ class Sudoku:
         print("Generado en: ", time.time()-TiempoI)
         return self.board
     
-    def validaNumero(self, i, j, fila):
+    def LlenaNumero(self, i, j, fila, generaColumnas, generaCuadrante, generaNumero):
+        
         valido = False
         iteracion = 0
         while valido != True:
             iteracion += 1
             #print("J vale: ", j)
             #print("LenTablero vale: ", len(Tablero))
-            currentColumna = self.generaColumnas(j)
-            currentCuadrante = self.generaCuadrante(i, j )
+            currentColumna = generaColumnas(j, self.board)
+            currentCuadrante = generaCuadrante(i, j, self.board)
             
             #print("El cuadrante es: ", currentCuadrante)
             #print("Columna actual: ", currentColumna)
             #print("Fila Actual:   ", fila)
             #print("Determinando posicion: ", j+1, " de la lista: ", i+1)
             
-            numero = self.generaNumero(1, 9)
+            numero = generaNumero(1, 9)
             #print("Numero posible: ", numero)
 
             if numero in fila or numero in currentColumna or numero in currentCuadrante:
@@ -138,139 +98,8 @@ class Sudoku:
                 valido = True
                 return numero
 
-    def validaTablero(self):
-        results = []
-        fallas = []
-        Valido = True
-        print("**************Validando Tablero*******************")
-        for i in range(self.size):
-            fila = self.board[i]
-            print("Analizando fila: ", i, ": ", fila)
-            for j in range(self.size):
-                Estado = True
-                posicion = None
-                numero = self.board[i][j]
-                
-                print("Analizando posicion: (", i, ", ", j, "): ", numero)
-                currentColumna = self.generaColumnas(j)
-                print("Analizando columna: ", j, ": ", currentColumna)
-                currentCuadrante = self.generaCuadrante(i, j)
-                print("Cuadrante: ", currentCuadrante)
-                if numero in currentCuadrante:
-                    index = currentCuadrante.index(numero)
-                    currentCuadrante[index] = 0
-                print(currentCuadrante)
-                for k in range(self.size):
-                    if k != j:
-                        EstadoF = self.validaFila(numero, fila, fallas, i, j ,k)
-                        Estado = EstadoF
-                        Valido = EstadoF 
-                    if k != i:
-                        EstadoC = self.validaColumna(numero, currentColumna, fallas, i, j ,k)
-                        Estado = EstadoC
-                        Valido = EstadoC
-                    if True:
-                        EstadoCT = self.validaCuadrante(numero, currentCuadrante, fallas, i, j ,k)
-                        Estado = EstadoCT
-                        Valido = EstadoCT
+    
 
-            print("**********************")
-            if Estado:
-                print("Resultado de la fila: ", i, ": ✅")
-                results.append("✅")
-            else:
-                print("Resultado de la fila: ", i, ": ❌")
-                results.append("❌")
-            print("**********************")
-        print("--------------------------------------")
-        print("Resultados globales del tablero: ")
-        for i in range(self.size):
-            time.sleep(2)
-            print("Fila: ", i, ": ", results[i])
-            
-        if Valido:
-            print("Su Tablero es valido, felicidades")
-            print("fallas: ", fallas)
-            self.tablero_valido = True
-            
-        else:
-            print("Su tablero es invalido")
-            print("Se encontraron errores en las posiciones: ", fallas)
-        print("--------------------------------------")
-        return self.tablero_valido
 
-    def validaFila(self, numero, fila, fallas, i, j ,k):
-        if numero == fila[k]:
-            posicion = (i, j)
-            if posicion not in fallas:
-                fallas.append(posicion)
 
-                print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
-                print("+El numero: ", numero, " esta en fila de la posicion: (", i, ", ", k, ") ")
-                return False
-            else:
 
-                print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
-                print("+El numero: ", numero, " esta en fila de la posicion: (", i, ", ", k, ") ")
-                return False
-        else:
-            return True
-        
-    def validaColumna(self, numero, currentColumna, fallas, i, j, k):
-        if numero == currentColumna[k]:
-            posicion = (i, j)
-            if posicion not in fallas:
-                fallas.append(posicion)
-
-                print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
-                print("-El numero: ", numero, " esta en columna de la posicion: (", i, ", ", k, ") ")
-                return False
-            else:
-
-                print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
-                print("-El numero: ", numero, " esta en columna de la posicion: (", i, ", ", k, ") ")
-                return False
-        else:
-            return True
-    def validaCuadrante(self, numero, currentCuadrante, fallas,i, j, k):
-        if numero == currentCuadrante[k]:  
-            posicion = (i, j)
-            if posicion not in fallas:
-                fallas.append(posicion)
-
-                print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
-                print("*El numero: ", numero, " esta en su cuadrante")
-                if 0 in currentCuadrante:
-                    index = currentCuadrante.index(0)
-                    currentCuadrante[index] = numero
-                print(currentCuadrante)
-                return False
-            else:
-
-                print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
-                print("*El numero: ", numero, " esta en su cuadrante")
-                if 0 in currentCuadrante:
-                    index = currentCuadrante.index(0)
-                    currentCuadrante[index] = numero
-                print(currentCuadrante)
-                return False
-        else:
-            return True
-        
-
-# Crear una instancia de la clase
-sudoku = Sudoku()
-
-# Generar el tablero
-sudoku.generaTablero()
-
-# Llenar el tablero con números aleatorios válidos
-sudoku.LlenarTablero()
-
-# Imprimir el tablero
-for fila in sudoku.board:
-    print(fila)
-
-# Validar que el tablero sea correcto
-es_valido = sudoku.validaTablero()
-print("¿El tablero es válido?", es_valido)
