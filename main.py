@@ -16,6 +16,30 @@ tablero_dificil = [
     [2, 0, 9, 0, 0, 0, 0, 0, 0]
 ]
 
+tablero_dificil2 = [
+    [8, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 3, 6, 0, 0, 0, 0, 0],
+    [0, 7, 0, 0, 9, 0, 2, 0, 0],
+    [0, 5, 0, 0, 0, 7, 0, 0, 0],
+    [0, 0, 0, 0, 4, 5, 7, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 3, 0],
+    [0, 0, 1, 0, 0, 0, 0, 6, 8],
+    [0, 0, 8, 5, 0, 0, 0, 1, 0],
+    [0, 9, 0, 0, 0, 0, 4, 0, 0]
+]
+
+tablero_ultra_dificil = [
+    [8, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 3, 6, 0, 0, 0, 0, 0],
+    [0, 7, 0, 0, 9, 0, 2, 0, 0],
+    [0, 5, 0, 0, 0, 7, 0, 0, 0],
+    [0, 0, 0, 0, 4, 5, 7, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 3, 0],
+    [0, 0, 1, 0, 0, 0, 0, 6, 8],
+    [0, 0, 8, 5, 0, 0, 0, 1, 0],
+    [0, 9, 0, 0, 0, 0, 4, 0, 0]
+]
+
 class main():
 
     
@@ -59,18 +83,40 @@ class main():
             print("Tablero Modificado: ")
             for i in range(len(self.board)):
                 print(self.board[i])
+            print()
+            print()
+            print()
+            print()
+            print()
+            print()
             self.Solucionador()
         else:
             print("El tablero no es valido")
 
     def Solucionador(self):
-        print("==================================================================================")
-        print("Solo es una prueba")
+        """ print("==================================================================================")
+        print("Solo es una prueba") """
         if self.valido:
-            self.boardSolve, val = self.solucionador.resuelve(tablero_dificil)
+            print("=====================================================================")
+            print("Resuelto con back")
+            print("=====================================================================")
+            self.boardSolve, val = self.solucionador.gestionador(tablero_ultra_dificil)
             if val:
-                print("Tablero solcionado: ", tablero_dificil)
-                return self.boardSolve
+                print("Tablero solcionado: ", self.boardSolve)
+                print("Vamos a verificarlo...")
+                self.validator.validaTablero(self.boardSolve)
+                #return self.boardSolve
+            else:
+                print("El tablero no se pudo resolver")
+        if self.valido:
+            self.boardSolve = None
+            print("=====================================================================")
+            print("Resuelto con resuelve")
+            print("=====================================================================")
+            self.boardSolve, val = self.solucionador.resuelve(tablero_ultra_dificil)
+            if val:
+                print("Tablero solcionado: ", self.boardSolve)
+                #return self.boardSolve
             else:
                 print("El tablero no se pudo resolver")
 
