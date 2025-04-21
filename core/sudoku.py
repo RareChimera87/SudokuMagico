@@ -28,7 +28,7 @@ class Sudoku:
         self.board = tableroVacio
         TiempoI = time.time()
         
-        print("Tablero Generado: ", self.board)
+        self.printSudoku(self.board)
 
         for i in range(self.size):
             #print("Generando fila numero: ", i + 1)
@@ -61,12 +61,8 @@ class Sudoku:
             self.board[i] = fila
             #print("Nuevo Tablero: ", self.board)
 
-        print("Finalizado\nTablero generado: ")
-        print("\n\n\n------------------------------------------------------------------------")
-        """ for i in range(9):
-            print(self.board[i])
-        print("\n\n\n------------------------------------------------------------------------")
- """
+        print("Finalizado")
+        self.printSudoku(self.board)
         print("Generado en: ", time.time()-TiempoI)
         return self.board
     
@@ -100,6 +96,14 @@ class Sudoku:
                 #print("Numero Valido\n Añadiendo")
                 valido = True
                 return numero
+            
+    def printSudoku(self, tablero):
+        print("\n\n\n------------------------------------------------------------------------")
+        print("Tablero generado: ")
+        for i in range(len(tablero)):
+            print(tablero[i])
+        print("\n\n\n------------------------------------------------------------------------")
+
 
     
 

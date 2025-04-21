@@ -59,9 +59,6 @@ class main():
 
         self.board = self.sudoku.LlenarTablero(Matriz)
         
-        print("Tablero generado: ")
-        for i in range(len(self.board)):
-            print(self.board[i])
 
 
         print("es valido el tablero?")
@@ -80,9 +77,6 @@ class main():
         if self.valido:
             print("Asignando dificultad...")
             self.board = self.dificultad.modificaTablero(self.board)
-            print("Tablero Modificado: ")
-            for i in range(len(self.board)):
-                print(self.board[i])
             print()
             print()
             print()
@@ -94,13 +88,8 @@ class main():
             print("El tablero no es valido")
 
     def Solucionador(self):
-        """ print("==================================================================================")
-        print("Solo es una prueba") """
         if self.valido:
-            print("=====================================================================")
-            print("Resuelto con back")
-            print("=====================================================================")
-            self.boardSolve, val = self.solucionador.gestionador(tablero_ultra_dificil)
+            self.boardSolve, val = self.solucionador.gestionador(self.board)
             if val:
                 print("Tablero solcionado: ", self.boardSolve)
                 print("Vamos a verificarlo...")
@@ -108,18 +97,6 @@ class main():
                 #return self.boardSolve
             else:
                 print("El tablero no se pudo resolver")
-        if self.valido:
-            self.boardSolve = None
-            print("=====================================================================")
-            print("Resuelto con resuelve")
-            print("=====================================================================")
-            self.boardSolve, val = self.solucionador.resuelve(tablero_ultra_dificil)
-            if val:
-                print("Tablero solcionado: ", self.boardSolve)
-                #return self.boardSolve
-            else:
-                print("El tablero no se pudo resolver")
-
 
         else:
             print("El tablero es invalido no se puede resolver")

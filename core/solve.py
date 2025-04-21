@@ -2,18 +2,8 @@ from core.sudoku import Sudoku
 from core.validator import Validator
 from core.generator import Generator
 import copy
+import time
 
-tablero_dificil = [
-    [0, 0, 0, 0, 0, 0, 9, 0, 7],
-    [0, 0, 0, 4, 2, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 5, 0, 0, 8],
-    [0, 0, 0, 0, 0, 0, 0, 5, 0],
-    [0, 4, 0, 0, 0, 0, 0, 8, 0],
-    [0, 9, 0, 0, 0, 0, 0, 0, 0],
-    [5, 0, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 6, 0, 5, 9, 0, 0, 0],
-    [8, 0, 9, 0, 0, 0, 0, 0, 0]
-]
 
 
 class solucionador():
@@ -24,22 +14,36 @@ class solucionador():
         self.board = []
         self.newBoard = []
 
-    def printNewBoard(self):
-        print("----------------------------------")
-        print(self.board)
-        for i in range(len(self.board)):
-            print(self.board[i])
-        print("----------------------------------")
 
     def gestionador(self, tablero):
-        if(self.backtracking(tablero)):
-            self.printNewBoard()
-            return self.board, True
-        else:
-            return self.board, False
+        
+        while True:
+            try:
+                respuesta = int(input("Elija un metodo para resolver el sudoku:\n1.Aleatoriedad\n2.Bactracking\nRespuesta: "))
+                if  respuesta == 1:
+                    print("Eligio Aleatoriedad")
+                    ini = time.time()
+                    self.resuelve(tablero)
+                    print("Realizado en: ", time.time() - ini)
+                    self.sudoku.printSudoku(self.newBoard)
+                    return self.newBoard, True
+                elif respuesta == 2:
+                    print("Eligio Backtracking")
+                    ini = time.time()
+                    if(self.backtracking(tablero)):
+                        print("Resuelto en: ", time.time() - ini)
+                        self.sudoku.printSudoku(self.board)
+                        return self.board, True
+                    else:
+                        print("Se ejecuto por: ", time.time() - ini)
+                        print("No se pudo resolver")
+                        return self.board, False
+                else:
+                    print("Elija una opcion valida.")
+            except:
+                print("Escriba un numero")
 
     def resuelve(self, tablero):
-
     
         self.board = tablero
         self.newBoard = copy.deepcopy(self.board)
@@ -91,7 +95,6 @@ class solucionador():
                         
                 
         #print("Fall: ", fall)
-        print(self.newBoard)
         return self.newBoard, True
 
     def backtracking(self, tablero):
