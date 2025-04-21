@@ -38,7 +38,7 @@ class Sudoku:
                 fila = []
                 error = False
                 for j in range(9):
-                    numero = self.LlenaNumero(i, j, fila, generaColumnas, generaCuadrante, generaNumero)
+                    numero = self.LlenaNumero(i, j, fila, self.board, generaColumnas, generaCuadrante, generaNumero)
                     if numero is None:
                         fila = []
                         error = True
@@ -67,7 +67,7 @@ class Sudoku:
         print("Generado en: ", time.time()-TiempoI)
         return self.board
     
-    def LlenaNumero(self, i, j, fila, generaColumnas, generaCuadrante, generaNumero):
+    def LlenaNumero(self, i, j, fila, tablero, generaColumnas, generaCuadrante, generaNumero):
         
         valido = False
         iteracion = 0
@@ -75,12 +75,12 @@ class Sudoku:
             iteracion += 1
             #print("J vale: ", j)
             #print("LenTablero vale: ", len(Tablero))
-            currentColumna = generaColumnas(j, self.board)
-            currentCuadrante = generaCuadrante(i, j, self.board)
+            currentColumna = generaColumnas(j, tablero)
+            currentCuadrante = generaCuadrante(i, j, tablero)
             
-            #print("El cuadrante es: ", currentCuadrante)
-            #print("Columna actual: ", currentColumna)
-            #print("Fila Actual:   ", fila)
+            print("El cuadrante es: ", currentCuadrante)
+            print("Columna actual: ", currentColumna)
+            print("Fila Actual:   ", fila)
             #print("Determinando posicion: ", j+1, " de la lista: ", i+1)
             
             numero = generaNumero(1, 9)
