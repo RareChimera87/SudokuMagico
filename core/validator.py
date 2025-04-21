@@ -1,16 +1,20 @@
 import time
+from core.generator import Generator
+
+al = [[7, 3, 1, 4, 8, 6, 2, 5, 9], [9, 6, 2, 1, 7, 5, 4, 8, 3], [5, 8, 4, 9, 3, 2, 6, 7, 1], [6, 4, 5, 8, 1, 9, 3, 2, 7], [2, 7, 9, 5, 4, 3, 1, 6, 8], [8, 1, 3, 6, 2, 7, 9, 4, 5], [3, 5, 8, 2, 9, 4, 7, 1, 6], [1, 2, 7, 3, 6, 8, 5, 9, 4], [4, 9, 6, 7, 5, 1, 8, 3, 2]]
 
 class Validator():
     def __init__(self):
         self.board = []
         self.tablero_valido = False
+        self.generator = Generator()
 
     @property
     def size(self):
         return len(self.board)
 
     
-    def validaTablero(self, tablero, generaColumnas, generaCuadrante):
+    def validaTablero(self, tablero):
         self.board = tablero
         print("Tablero: ", self.board)
         print("Tamaño: ", self.size)
@@ -21,14 +25,14 @@ class Validator():
         for i in range(self.size):
             Estado = True
             fila = self.board[i]
-            print("Analizando fila: ", i, ": ", fila)
+            #print("Analizando fila: ", i, ": ", fila)
             for j in range(self.size):
                 numero = self.board[i][j]
                 
                 #print("Analizando posicion: (", i, ", ", j, "): ", numero)
-                currentColumna = generaColumnas(j, self.board)
+                currentColumna = self.generator.generaColumnas(j, self.board)
                 #print("Analizando columna: ", j, ": ", currentColumna)
-                currentCuadrante = generaCuadrante(i, j, self.board)
+                currentCuadrante = self.generator.generaCuadrante(i, j, self.board)
                 #print("Cuadrante: ", currentCuadrante)
                 if numero in currentCuadrante:
                     index = currentCuadrante.index(numero)
@@ -71,7 +75,7 @@ class Validator():
         print("--------------------------------------")
         print("Resultados globales del tablero: ")
         for i in range(self.size):
-            time.sleep(1)
+            #time.sleep(1)
             print("Fila: ", i, ": ", results[i])
             
         if not fallas:
@@ -142,3 +146,4 @@ class Validator():
                 return False
         else:
             return True
+        

@@ -68,10 +68,10 @@ class dificultad:
             #print("Valor: ", self.board[x][y])
             self.board[x][y] = 0
         
-        print("-----------------------------------------")
+        """ print("-----------------------------------------")
         print("Tablero modificado: ")
         for i in range(len(self.board)):
             print(self.board[i])
-        print("-----------------------------------------")
+        print("-----------------------------------------") """
         return self.board
             

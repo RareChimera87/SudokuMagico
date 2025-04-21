@@ -1,46 +1,74 @@
 from core.sudoku import Sudoku
-from core.generator import Generator
 from core.validator import Validator
+import copy
 
-nose2= [
-[3, 6, 2, 8, 7, 5, 4, 1, 0], 
-[4, 9, 6, 1, 3, 8, 2, 7, 5], 
-[6, 5, 8, 0, 9, 7, 4, 3, 1], 
-[2, 7, 9, 5, 3, 4, 1, 6, 8], 
-[0, 1, 9, 5, 4, 0, 6, 8, 0], 
-[1, 3, 4, 5, 9, 6, 8, 2, 7], 
-[6, 7, 1, 4, 5, 2, 8, 3, 9], 
-[6, 3, 4, 7, 8, 9, 5, 2, 1], 
-[6, 0, 4, 7, 9, 2, 3, 1, 0]
-]
 
 
 class solucionador():
-    def __init__(self, Tablero):
+    def __init__(self):
         self.sudoku = Sudoku()
-        self.generator = Generator()
         self.validator = Validator()
-        self.board = Tablero
+        self.board = []
         self.newBoard = []
-        self.NumberVoid = 0
-        self.timesSeen = 0
 
-    def resuelve(self):
-        self.newBoard = self.board
+    def resuelve(self, tablero):
+        self.board = tablero
+        self.newBoard = copy.deepcopy(self.board)
+        valide = False
+        fall = []
+        intentos = 0
+        maxIntentos = 100
+
+        while not valide and intentos <= maxIntentos:
+            intentos += 1
+            
+            self.newBoard = copy.deepcopy(self.board)
+            print("Board: ", self.newBoard)
+            for i in range(len(self.newBoard)):
+                valid = False
+                iteraciones = 0
+                filaR = []
+                while not valid:
+                    filaR = copy.deepcopy(self.newBoard[i])
+                    #print("Trabajando con: ", filaR)
+                    errores = False
+                    for j in range(len(filaR)):
+                        posicion = (i, j)
+                        if self.newBoard[i][j] == 0:
+                            #print("newBoard: ", self.newBoard)
+                            numero = self.sudoku.LlenaNumero(i, j, filaR, self.newBoard)
+                            if numero:
+                                #print("El numero para la posicion: ",posicion, " es: ", numero)
+                                filaR[j] = numero
+                            else: 
+                                #print("Error en la posicion: ", posicion)
+                                fall.append(posicion)
+                                errores = True
+                                valid = False
+                    if errores:
+                        valid = False
+                        print("Combinacion Invalida, reseteando fila\nAntigua: ", self.newBoard[i])
+                        iteraciones += 1
+                    else:
+                        print("Fila valida")
+                        self.newBoard[i] = copy.deepcopy(filaR)
+                        print(self.newBoard[i])
+                        valid = True
+                    if iteraciones > 70:
+                        valid = True
+            print("Intento: ", intentos)
+            if self.validator.validaTablero(self.newBoard):
+                valide = True
+                        
+                
+        #print("Fall: ", fall)
+        print("----------------------------------")
         for i in range(len(self.newBoard)):
-            fila = []
-            fila.append(self.newBoard[i])
-            for j in range(len(fila)):
-                while True:
-                    if fila[j] == 0:
-                        numero = self.sudoku.LlenaNumero(i, j, fila, self.newBoard, self.generator.generaColumnas, self.generator.generaCuadrante, self.generator.generaNumero)
-                        validFila = self.validator.validaFila(numero, fila)
-                        validColumna = self.validator.validaColumna
-                        validCuadrante = self.validator.validaCuadrante
+            print(self.newBoard[i])
+        print("----------------------------------")
+        return self.newBoard, True
+
+
+
             
 
-
-
-
-solv = solucionador(nose2)
-solv.resuelve()

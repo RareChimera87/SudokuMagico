@@ -1,4 +1,6 @@
 import time
+
+from core.generator import Generator
 """ 
 nose = [
 [3, 6, 2, 8, 7, 5, 4, 1, 9], 
@@ -18,17 +20,18 @@ class Sudoku:
         self.size = 9
         self.cuadrante_size = 3
         self.board = []
+        self.generator = Generator()
 
     
 
-    def LlenarTablero(self, tableroVacio,generaColumnas, generaCuadrante, generaNumero):
+    def LlenarTablero(self, tableroVacio):
         self.board = tableroVacio
         TiempoI = time.time()
         
         print("Tablero Generado: ", self.board)
 
         for i in range(self.size):
-            print("Generando fila numero: ", i + 1)
+            #print("Generando fila numero: ", i + 1)
             #print("Fila Original: ", self.board[i])
             
             validatorNumber = False
@@ -38,7 +41,7 @@ class Sudoku:
                 fila = []
                 error = False
                 for j in range(9):
-                    numero = self.LlenaNumero(i, j, fila, self.board, generaColumnas, generaCuadrante, generaNumero)
+                    numero = self.LlenaNumero(i, j, fila, self.board)
                     if numero is None:
                         fila = []
                         error = True
@@ -60,14 +63,14 @@ class Sudoku:
 
         print("Finalizado\nTablero generado: ")
         print("\n\n\n------------------------------------------------------------------------")
-        for i in range(9):
+        """ for i in range(9):
             print(self.board[i])
         print("\n\n\n------------------------------------------------------------------------")
-
+ """
         print("Generado en: ", time.time()-TiempoI)
         return self.board
     
-    def LlenaNumero(self, i, j, fila, tablero, generaColumnas, generaCuadrante, generaNumero):
+    def LlenaNumero(self, i, j, fila, tablero):
         
         valido = False
         iteracion = 0
@@ -75,15 +78,15 @@ class Sudoku:
             iteracion += 1
             #print("J vale: ", j)
             #print("LenTablero vale: ", len(Tablero))
-            currentColumna = generaColumnas(j, tablero)
-            currentCuadrante = generaCuadrante(i, j, tablero)
+            currentColumna = self.generator.generaColumnas(j, tablero)
+            currentCuadrante = self.generator.generaCuadrante(i, j, tablero)
             
-            print("El cuadrante es: ", currentCuadrante)
-            print("Columna actual: ", currentColumna)
-            print("Fila Actual:   ", fila)
+            #print("El cuadrante es: ", currentCuadrante)
+            #print("Columna actual: ", currentColumna)
+            #print("Fila Actual:   ", fila)
             #print("Determinando posicion: ", j+1, " de la lista: ", i+1)
             
-            numero = generaNumero(1, 9)
+            numero = self.generator.generaNumero(1, self.size)
             #print("Numero posible: ", numero)
 
             if numero in fila or numero in currentColumna or numero in currentCuadrante:
