@@ -36,6 +36,11 @@ class Pdf:
     def SudokuBoardGen(self, numeros):
         width, height = letter  
         self.canvas.setFont("Helvetica", 20)
+        
+        x = 215
+        y = 759 
+
+        self.canvas.drawString(x, y, "Sudoku Generator")
 
         cell_size = 40
         tablero_size = cell_size * 9

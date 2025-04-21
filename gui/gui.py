@@ -44,33 +44,36 @@ class Gui:
         self.root.mainloop()
 
     def Generar(self):
-        textbox2 = self.textbox2.get('1.0', tk.END).strip()
+        try:
+            textbox2 = self.textbox2.get('1.0', tk.END).strip()
 
-        if textbox2:
-            textbox2 = int(self.textbox2.get('1.0', tk.END).strip())
-            if (1 <= int(self.textbox2.get('1.0', tk.END).strip()) <= 5): 
-                self.dificultad = textbox2
-                self.fileName = self.textbox.get('1.0', tk.END).strip()
-                if not self.fileName or any(c in self.fileName for c in self.caracteresProhibidos):
-                    messagebox.showinfo(title="ALERTA", message="Use Caracteres validos o Llenelo")
-                else:
-                    if self.checkState.get() == 1:
-                        self.resolver = True
-                        self.fileNameSolve = self.fileName + "Solve"
-                        message = "Archivo generado: \n" + self.fileName + ".pdf\n" + "Y \n" + self.fileNameSolve + ".pdf"
+            if textbox2:
+                textbox2 = int(self.textbox2.get('1.0', tk.END).strip())
+                if (1 <= int(self.textbox2.get('1.0', tk.END).strip()) <= 5): 
+                    self.dificultad = textbox2
+                    self.fileName = self.textbox.get('1.0', tk.END).strip()
+                    if not self.fileName or any(c in self.fileName for c in self.caracteresProhibidos):
+                        messagebox.showinfo(title="ALERTA", message="Use Caracteres validos o Llenelo")
                     else:
-                        message = "Archivo generado: \n" + self.fileName + ".pdf\n" 
-                    messagebox.showinfo(title="Informacion", message=message)
+                        if self.checkState.get() == 1:
+                            self.resolver = True
+                            self.fileNameSolve = self.fileName + "Solve"
+                            message = "Archivo generado: \n" + self.fileName + ".pdf\n" + "Y \n" + self.fileNameSolve + ".pdf"
+                        else:
+                            message = "Archivo generado: \n" + self.fileName + ".pdf\n" 
+                        messagebox.showinfo(title="Informacion", message=message)
 
-                    if self.generateCallback:
+                        if self.generateCallback:
 
-                        messagebox.showinfo(title="Informacion", message="Gracias por generar sudokus")
-                        self.generateCallback(self.fileName, self.fileNameSolve, self.resolver, self.dificultad)
-                        self.root.destroy()
+                            messagebox.showinfo(title="Informacion", message="Gracias por generar sudokus")
+                            self.generateCallback(self.fileName, self.fileNameSolve, self.resolver, self.dificultad)
+                            self.root.destroy()
+                else:
+                    messagebox.showinfo(title="ALERTA", message="Elija un valor dentro del rango")
+
             else:
-                messagebox.showinfo(title="ALERTA", message="Elija un valor dentro del rango")
-
-        else:
-            messagebox.showinfo(title="ALERTA", message="Llenelo")
+                messagebox.showinfo(title="ALERTA", message="Llenelo")
+        except:
+            messagebox.showinfo(title="ALERTA", message="ingrese un numero")
     
 
