@@ -17,8 +17,8 @@ class Validator():
     
     def validaTablero(self, tablero):
         self.board = tablero
-        print("Tablero: ", self.board)
-        print("Tamaño: ", self.size)
+        #print("Tablero: ", self.board)
+        #print("Tamaño: ", self.size)
         results = []
         fallas = []
         Valido = True

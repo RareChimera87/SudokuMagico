@@ -102,7 +102,9 @@ class solucionador():
         posiciones = [0, 0]
 
         if not self.find_empty(tablero, posiciones):
+            print("Fin Back")
             return True
+            
 
         fila = posiciones[0]
         columna = posiciones[1]

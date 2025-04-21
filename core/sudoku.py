@@ -62,7 +62,7 @@ class Sudoku:
             #print("Nuevo Tablero: ", self.board)
 
         print("Finalizado")
-        self.printSudoku(self.board)
+        #self.printSudoku(self.board)
         print("Generado en: ", time.time()-TiempoI)
         return self.board
     

@@ -4,6 +4,8 @@ from core.validator import Validator
 from core.dificultad import dificultad
 from core.solve import solucionador
 
+from gui.pdfGen import Pdf
+
 tablero_dificil = [
     [0, 0, 0, 0, 0, 0, 9, 0, 7],
     [0, 0, 0, 4, 2, 0, 1, 0, 0],
@@ -49,6 +51,7 @@ class main():
         self.sudoku = Sudoku()
         self.dificultad = dificultad()
         self.solucionador = solucionador()
+        self.pdfGen = Pdf()
         self.valido = False
         self.board = []
         self.boardSolve = None
@@ -77,13 +80,10 @@ class main():
         if self.valido:
             print("Asignando dificultad...")
             self.board = self.dificultad.modificaTablero(self.board)
+            self.pdfGen.Iniciador(self.board)
             print()
             print()
-            print()
-            print()
-            print()
-            print()
-            self.Solucionador()
+
         else:
             print("El tablero no es valido")
 
@@ -91,10 +91,11 @@ class main():
         if self.valido:
             self.boardSolve, val = self.solucionador.gestionador(self.board)
             if val:
-                print("Tablero solcionado: ", self.boardSolve)
+                #print("Tablero solcionado: ", self.boardSolve)
                 print("Vamos a verificarlo...")
                 self.validator.validaTablero(self.boardSolve)
-                #return self.boardSolve
+                self.pdfGen.Iniciador(self.boardSolve)
+                return self.boardSolve
             else:
                 print("El tablero no se pudo resolver")
 
@@ -107,3 +108,7 @@ class main():
 if __name__ == "__main__":
     app = main()
     app.getSudoku()
+
+    respuesta = int(input("Quiere que lo resuelva?\n1.Si\n2.No\nSu respuesta: "))
+    if respuesta == 1:
+        app.Solucionador()
