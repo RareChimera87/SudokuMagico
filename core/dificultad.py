@@ -19,10 +19,10 @@ class dificultad:
         self.elimnumbers = 0
         self.board = []
 
-    def selelccionarDifucultad(self):
+    def selelccionarDifucultad(self, nivel):
         while True:
             try:
-                dificultad = int(input("Seleccione la dificultad del Sudoku(1-Facil ; 5-MuyDificil) :"))
+                dificultad = int(nivel)
                 if  1 <=  dificultad <= 5:
                     self.dificultad = dificultad
                     print("Dificultad asignada:", self.dificultad)
@@ -50,12 +50,12 @@ class dificultad:
         else:
             self.elimnumbers = 58
 
-    def modificaTablero(self, Tablero):
+    def modificaTablero(self, Tablero, nivel):
         generador = Generator()
         self.board = Tablero
         min = 0
         max = len(self.board[min]) - 1
-        self.selelccionarDifucultad()
+        self.selelccionarDifucultad(nivel)
         modificados = []
         for i in range(self.elimnumbers):
             while True:

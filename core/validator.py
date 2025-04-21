@@ -96,13 +96,13 @@ class Validator():
             if posicion not in fallas:
                 fallas.append(posicion)
 
-                print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
-                print("+El numero: ", numero, " esta en fila de la posicion: (", i, ", ", k, ") ")
+                #print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
+                #print("+El numero: ", numero, " esta en fila de la posicion: (", i, ", ", k, ") ")
                 return False
             else:
 
-                print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
-                print("+El numero: ", numero, " esta en fila de la posicion: (", i, ", ", k, ") ")
+                #print("La posicion: (", i, ", ", j, "): ", numero, " ya se encuentra ")
+                #print("+El numero: ", numero, " esta en fila de la posicion: (", i, ", ", k, ") ")
                 return False
         else:
             return True

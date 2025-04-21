@@ -51,12 +51,17 @@ class main():
         self.validator = Validator()
         self.sudoku = Sudoku()
         self.dificultad = dificultad()
+        self.nivel = 1
         self.solucionador = solucionador()
         self.pdfGen = Pdf()
-        self.gui = Gui()
+        self.gui = Gui(self.Interfaz)
         self.valido = False
         self.board = []
         self.boardSolve = None
+        self.resolver = False
+        self.fileName = ""
+        self.fileNameSolve = ""
+
     
     def getSudoku(self):
 
@@ -81,8 +86,8 @@ class main():
     def AsignarDificultad(self):
         if self.valido:
             print("Asignando dificultad...")
-            self.board = self.dificultad.modificaTablero(self.board)
-            self.pdfGen.Iniciador(self.board)
+            self.board = self.dificultad.modificaTablero(self.board, self.nivel)
+            self.pdfGen.Iniciador(self.board, self.fileName)
             print()
             print()
 
@@ -96,7 +101,7 @@ class main():
                 #print("Tablero solcionado: ", self.boardSolve)
                 print("Vamos a verificarlo...")
                 self.validator.validaTablero(self.boardSolve)
-                self.pdfGen.Iniciador(self.boardSolve)
+                self.pdfGen.Iniciador(self.boardSolve, self.fileNameSolve)
                 return self.boardSolve
             else:
                 print("El tablero no se pudo resolver")
@@ -104,16 +109,21 @@ class main():
         else:
             print("El tablero es invalido no se puede resolver")
 
-    def Interfaz(self):
-        fileName, fileNameSolver, resolver = self.gui
-        print(fileName, fileNameSolver, resolver)
+    def Interfaz(self, nombre, nombreSol, resolver, dificultad):
+        self.resolver = resolver
+        self.fileName = nombre
+        self.fileNameSolve = nombreSol
+        self.nivel = dificultad
+        self.getSudoku()
+        if resolver:
+            self.Solucionador()
 
 
 
 if __name__ == "__main__":
-    app = main()
-    app.Interfaz()
+    main()
 
-    respuesta = int(input("Quiere una archivo con la respuesta?\n1.Si\n2.No\nSu respuesta: "))
+
+"""     respuesta = int(input("Quiere una archivo con la respuesta?\n1.Si\n2.No\nSu respuesta: "))
     if respuesta == 1:
-        app.Solucionador()
+        app.Solucionador() """

@@ -19,7 +19,8 @@ class solucionador():
         
         while True:
             try:
-                respuesta = int(input("Elija un metodo para resolver el sudoku:\n1.Aleatoriedad\n2.Bactracking\nRespuesta: "))
+                #respuesta = int(input("Elija un metodo para resolver el sudoku:\n1.Aleatoriedad\n2.Bactracking\nRespuesta: "))
+                respuesta = 2
                 if  respuesta == 1:
                     print("Eligio Aleatoriedad")
                     ini = time.time()

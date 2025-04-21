@@ -19,10 +19,10 @@ class Pdf:
         self.canvas = canvas.Canvas('Sudoku.pdf')
         self.caracteresProhibidos = r'\/:*?"<>|'
 
-    def Iniciador(self, tablero):
+    def Iniciador(self, tablero, nombre):
         while True:
             try:
-                respuesta = str(input("Elija un nombre para el archivo sin el .pdf: "))
+                respuesta = nombre
                 if not respuesta.strip() or any(c in respuesta for c in self.caracteresProhibidos):
                     raise ValueError("Nombre inválido")
                 break
