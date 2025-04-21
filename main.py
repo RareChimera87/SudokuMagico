@@ -5,6 +5,7 @@ from core.dificultad import dificultad
 from core.solve import solucionador
 
 from gui.pdfGen import Pdf
+from gui.gui import Gui
 
 tablero_dificil = [
     [0, 0, 0, 0, 0, 0, 9, 0, 7],
@@ -52,6 +53,7 @@ class main():
         self.dificultad = dificultad()
         self.solucionador = solucionador()
         self.pdfGen = Pdf()
+        self.gui = Gui()
         self.valido = False
         self.board = []
         self.boardSolve = None
@@ -102,13 +104,16 @@ class main():
         else:
             print("El tablero es invalido no se puede resolver")
 
+    def Interfaz(self):
+        fileName, fileNameSolver, resolver = self.gui
+        print(fileName, fileNameSolver, resolver)
 
 
 
 if __name__ == "__main__":
     app = main()
-    app.getSudoku()
+    app.Interfaz()
 
-    respuesta = int(input("Quiere que lo resuelva?\n1.Si\n2.No\nSu respuesta: "))
+    respuesta = int(input("Quiere una archivo con la respuesta?\n1.Si\n2.No\nSu respuesta: "))
     if respuesta == 1:
         app.Solucionador()
