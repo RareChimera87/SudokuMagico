@@ -1,5 +1,6 @@
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+from utils.validadores import Analiza
 
 tablero_dificil2 = [
     [8, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -15,6 +16,7 @@ tablero_dificil2 = [
 
 class Pdf:
     def __init__(self):
+        self.valida = Analiza()
         self.extension = '.pdf'
         self.canvas = canvas.Canvas('Sudoku.pdf')
         self.caracteresProhibidos = r'\/:*?"<>|'
@@ -22,17 +24,19 @@ class Pdf:
     def Iniciador(self, tablero, nombre):
         while True:
             try:
-                respuesta = nombre
-                if not respuesta.strip() or any(c in respuesta for c in self.caracteresProhibidos):
+                if not self.valida.validaNombre(nombre, self.caracteresProhibidos):
                     raise ValueError("Nombre inválido")
                 break
             except:
                 print("Escriba un nombre valido")
-        respuesta = respuesta + self.extension
-        self.canvas = canvas.Canvas(respuesta)
+        nombre = nombre + self.extension
+        self.canvas = canvas.Canvas(nombre)
         self.SudokuBoardGen(tablero)
         self.canvas.showPage()
         self.canvas.save()
+
+
+
     def SudokuBoardGen(self, numeros):
         width, height = letter  
         self.canvas.setFont("Helvetica", 20)

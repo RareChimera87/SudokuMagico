@@ -1,6 +1,8 @@
-from core.sudoku import Sudoku
 from core.validator import Validator
-from core.generator import Generator
+from utils.generator import Generator
+from utils.llena import Llenador
+from utils.showthing import Impresor
+from utils.validadores import Analiza
 import copy
 import time
 
@@ -8,42 +10,26 @@ import time
 
 class solucionador():
     def __init__(self):
-        self.sudoku = Sudoku()
         self.validator = Validator()
         self.generator = Generator()
+        self.llena = Llenador()
+        self.valida = Analiza()
         self.board = []
         self.newBoard = []
 
 
     def gestionador(self, tablero):
+        print("Usando Backtracking")
+        ini = time.time()
+        if(self.backtracking(tablero)):
+            print("Resuelto en: ", time.time() - ini)
+            Impresor().printSudoku(self.board)
+            return self.board, True
+        else:
+            print("Se ejecuto por: ", time.time() - ini)
+            print("No se pudo resolver")
+            return self.board, False
         
-        while True:
-            try:
-                #respuesta = int(input("Elija un metodo para resolver el sudoku:\n1.Aleatoriedad\n2.Bactracking\nRespuesta: "))
-                respuesta = 2
-                if  respuesta == 1:
-                    print("Eligio Aleatoriedad")
-                    ini = time.time()
-                    self.resuelve(tablero)
-                    print("Realizado en: ", time.time() - ini)
-                    self.sudoku.printSudoku(self.newBoard)
-                    return self.newBoard, True
-                elif respuesta == 2:
-                    print("Eligio Backtracking")
-                    ini = time.time()
-                    if(self.backtracking(tablero)):
-                        print("Resuelto en: ", time.time() - ini)
-                        self.sudoku.printSudoku(self.board)
-                        return self.board, True
-                    else:
-                        print("Se ejecuto por: ", time.time() - ini)
-                        print("No se pudo resolver")
-                        return self.board, False
-                else:
-                    print("Elija una opcion valida.")
-            except:
-                print("Escriba un numero")
-
     def resuelve(self, tablero):
     
         self.board = tablero
@@ -70,7 +56,7 @@ class solucionador():
                         posicion = (i, j)
                         if self.newBoard[i][j] == 0:
                             #print("newBoard: ", self.newBoard)
-                            numero = self.sudoku.LlenaNumero(i, j, filaR, self.newBoard)
+                            numero = self.llena.LlenaNumero(i, j, filaR, self.newBoard)
                             if numero:
                                 #print("El numero para la posicion: ",posicion, " es: ", numero)
                                 filaR[j] = numero
@@ -102,7 +88,7 @@ class solucionador():
         self.board = tablero
         posiciones = [0, 0]
 
-        if not self.find_empty(tablero, posiciones):
+        if not self.valida.find_empty(tablero, posiciones):
             print("Fin Back")
             return True
             
@@ -114,7 +100,7 @@ class solucionador():
         currentCuadrante = self.generator.generaCuadrante(fila, columna, self.board)
 
         for n in range(1, 10):
-            if (self.validaFila(n, self.board[fila]) and self.validaColumna(n, currentColumna) and self.validaCuadrante(n, currentCuadrante)):
+            if (self.valida.validaNumeroEnArray(n, self.board[fila]) and self.valida.validaNumeroEnArray(n, currentColumna) and self.valida.validaNumeroEnArray(n, currentCuadrante)):
 
                 self.board[fila][columna] = n
 
@@ -127,29 +113,4 @@ class solucionador():
         return False
 
 
-    def find_empty(self, tablero, posiciones):
-        for i in range(9):
-            for j in range(9):
-                if tablero[i][j] == 0:
-                    posiciones[0] = i
-                    posiciones[1] = j
-                    return True
-
-    def validaFila(self, numero, fila):
-        if numero in fila:
-            return False
-        else:
-            return True
-    
-    def validaColumna(self, numero, columna):
-        if numero in columna:
-            return False
-        else:
-            return True
-
-    def validaCuadrante(self, numero, cuadrante):
-        if numero in cuadrante:
-            return False
-        else:
-            return True
 

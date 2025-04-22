@@ -1,5 +1,3 @@
-from core.generator import Generator
-from core.sudoku import Sudoku
 from core.validator import Validator
 from core.dificultad import dificultad
 from core.solve import solucionador

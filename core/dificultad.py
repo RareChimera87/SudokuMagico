@@ -1,5 +1,5 @@
-from core.generator import Generator
-from core.sudoku import Sudoku
+from utils.generator import Generator
+from utils.showthing import Impresor
 
 nose = [
     [3, 6, 2, 8, 7, 5, 4, 1, 9], 
@@ -15,6 +15,7 @@ nose = [
 
 class dificultad:
     def __init__(self):
+        self.generador = Generator()
         self.dificultad = 0
         self.elimnumbers = 0
         self.board = []
@@ -51,7 +52,6 @@ class dificultad:
             self.elimnumbers = 58
 
     def modificaTablero(self, Tablero, nivel):
-        generador = Generator()
         self.board = Tablero
         min = 0
         max = len(self.board[min]) - 1
@@ -59,8 +59,8 @@ class dificultad:
         modificados = []
         for i in range(self.elimnumbers):
             while True:
-                x = generador.generaNumero(min, max)
-                y = generador.generaNumero(min, max)
+                x = self.generador.generaNumero(min, max)
+                y = self.generador.generaNumero(min, max)
                 posicion = (x, y)
                 if posicion not in modificados:
                     break
@@ -69,6 +69,6 @@ class dificultad:
             #print("Valor: ", self.board[x][y])
             self.board[x][y] = 0
         
-        Sudoku().printSudoku(self.board)
+        Impresor().printSudoku(self.board)
         return self.board
             
